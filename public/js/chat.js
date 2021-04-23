@@ -21,9 +21,9 @@ document.querySelector("#start_chat").addEventListener("click", (event) => {
 			email,
 			text,
 		};
-		socket.emit("client_first_access", params, (call, err) => {
-			if (err) {
-				console.err(err);
+		socket.emit("client_first_access", params, (call, error) => {
+			if (error) {
+				console.error(error);
 			} else {
 				console.log(call);
 			}
