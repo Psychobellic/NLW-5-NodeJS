@@ -1,13 +1,13 @@
 import { getCustomRepository, Repository } from "typeorm";
 import { SettingsRepository } from "../repositories/SettingsRepository";
-import { Settings } from "../entities/Settings";
+import { Settings } from "../entities/Setting";
 
 interface SettingsInterface {
 	username: string;
 	chat: boolean;
 }
 
-export class SettingsService {
+class SettingsService {
 	// Para não criar o Repositorio toda vez, criamos um private e um constructor, que afetam toda a classe que a contem, mencionamos tal constructor com o this. e podemos usar em vários pontos do codigo.
 	private settingsRepository: Repository<Settings>;
 
@@ -38,4 +38,16 @@ export class SettingsService {
 
 		return settings;
 	}
+	async update(username: string, chat: boolean) {
+		const settings = await this.settingsRepository
+			.createQueryBuilder()
+			.update(Settings)
+			.set({ chat })
+			.where("username = :username", {
+				username,
+			})
+			.execute();
+	}
 }
+
+export { SettingsService };

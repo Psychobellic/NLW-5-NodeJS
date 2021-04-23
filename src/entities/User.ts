@@ -1,5 +1,5 @@
 import { Entity, PrimaryColumn, Column, CreateDateColumn } from "typeorm";
-import { v4 as uuid } from "uuid";
+import { v4 as uuidV4 } from "uuid";
 
 @Entity("users")
 class User {
@@ -8,11 +8,11 @@ class User {
 	@Column()
 	email: string;
 	@CreateDateColumn()
-	created_At: Date;
+	created_at: Date;
 
 	constructor() {
 		if (!this.id) {
-			this.id = uuid();
+			this.id = uuidV4();
 		}
 	}
 }
