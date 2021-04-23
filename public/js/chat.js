@@ -3,7 +3,7 @@ let emailUser = null;
 let socket = null;
 
 document.querySelector("#start_chat").addEventListener("click", (event) => {
-	const socket = io();
+	socket = io();
 
 	const chat_help = document.getElementById("chat_help");
 	chat_help.style.display = "none";
@@ -21,9 +21,9 @@ document.querySelector("#start_chat").addEventListener("click", (event) => {
 			email,
 			text,
 		};
-		socket.emit("client_first_access", params, (call, error) => {
-			if (error) {
-				console.error(error);
+		socket.emit("client_first_access", params, (call, err) => {
+			if (err) {
+				console.err(err);
 			} else {
 				console.log(call);
 			}
