@@ -1,5 +1,5 @@
 import { MessagesRepository } from "../repositories/MessagesRepository";
-import { getCustomRepository, Repository } from "typeorm";
+import { getCustomRepository } from "typeorm";
 
 interface IMessageCreate {
 	admin_id?: string;

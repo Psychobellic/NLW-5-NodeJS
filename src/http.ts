@@ -16,6 +16,10 @@ app.get("/client", (req, res) => {
 	return res.render("html/client.html");
 });
 
+app.get("/admin", (req, res) => {
+	return res.render("html/admin.html");
+});
+
 export const http = createServer(app); //Criando protocolo http
 export const io = new Server(http); // Criando protocolo websocket (ws)
 
