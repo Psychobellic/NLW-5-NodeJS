@@ -1,6 +1,6 @@
-let socket = null;
 let socket_admin_id = null;
-let email = null;
+let email = "";
+let socket = null;
 
 document.querySelector("#start_chat").addEventListener("click", (event) => {
 	socket = io();
@@ -11,8 +11,8 @@ document.querySelector("#start_chat").addEventListener("click", (event) => {
 	const chat_in_support = document.getElementById("chat_in_support");
 	chat_in_support.style.display = "block";
 
-	const email = document.getElementById("email").value;
-	const text = document.getElementById("txt_help").value;
+	email = document.getElementById("email").innerHTML;
+	const text = document.getElementById("txt_help").innerHTML;
 
 	socket.on("connect", () => {
 		const params = {
@@ -65,12 +65,12 @@ document.querySelector("#start_chat").addEventListener("click", (event) => {
 });
 
 document
-	.querySelector("#send_message_button")
+	.querySelector("send_message_button")
 	.addEventListener("click", (event) => {
 		const text = document.getElementById("message_user");
 
 		const params = {
-			text: text.value,
+			text: text.innerHTML,
 			socket_admin_id,
 		};
 

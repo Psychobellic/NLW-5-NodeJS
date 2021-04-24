@@ -1,4 +1,3 @@
-let socket = io();
 let connections = [];
 let connectionsUsers = [];
 
@@ -73,7 +72,7 @@ function sendMessage(id) {
 	const text = document.getElementById(`send_message_${id}`);
 
 	const params = {
-		text: text.value,
+		text: text.innerHTML,
 		user_id: id,
 	};
 
@@ -90,7 +89,7 @@ function sendMessage(id) {
 
 	divMessages.appendChild(createDiv);
 
-	text.value = "";
+	text.innerHTML = "";
 }
 
 socket.on("admin_receive_message", (data) => {
