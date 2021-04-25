@@ -6,7 +6,7 @@ import {
 	ManyToOne,
 	JoinColumn,
 } from "typeorm";
-import { v4 as uuidV4 } from "uuid";
+import { v4 as uuid } from "uuid";
 import { User } from "./User";
 
 @Entity("messages")
@@ -32,7 +32,7 @@ class Message {
 
 	constructor() {
 		if (!this.id) {
-			this.id = uuidV4();
+			this.id = uuid();
 		}
 	}
 }

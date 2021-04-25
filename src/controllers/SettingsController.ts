@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { SettingsService } from "../services/SettingsService";
 
 class SettingsController {
-	async create(req: Request, res: Response) {
+	async create(req: Request, res: Response): Promise<Response> {
 		const { username, chat } = req.body;
 
 		const settingsService = new SettingsService();
@@ -21,29 +21,16 @@ class SettingsController {
 		const { username } = req.params;
 
 		const settingsService = new SettingsService();
-
-		try {
-			const setting = await settingsService.findByUsername(username);
-			return res.json(setting);
-		} catch (err) {
-			return res.status(400).json({
-				message: err.message,
-			});
-		}
+		const setting = await settingsService.findByUsername(username);
+		return res.json(setting);
 	}
 	async update(req: Request, res: Response) {
 		const { username } = req.params;
 		const { chat } = req.body;
-		try {
-			const settingService = new SettingsService();
+		const settingService = new SettingsService();
 
-			await settingService.update(username, chat);
-			return res.send();
-		} catch (err) {
-			return res.status(400).json({
-				message: err.message,
-			});
-		}
+		const settings = await settingService.update(username, chat);
+		return res.json(settings);
 	}
 }
 

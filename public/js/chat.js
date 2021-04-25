@@ -1,5 +1,5 @@
 let socket_admin_id = null;
-let email = "";
+let email = null;
 let socket = null;
 
 document.querySelector("#start_chat").addEventListener("click", (event) => {
@@ -32,29 +32,27 @@ document.querySelector("#start_chat").addEventListener("click", (event) => {
 		var template_client = document.getElementById("message-user-template")
 			.innerHTML;
 		var template_admin = document.getElementById("admin-template").innerHTML;
+		let rendered;
 
 		messages.forEach((message) => {
 			if (message.admin_id === null) {
-				const rendered = Mustache.render(template_client, {
+				rendered = Mustache.render(template_client, {
 					message: message.text,
 					email,
 				});
-
-				document.getElementById("messages").innerHTML += rendered;
 			} else {
-				const rendered = Mustache.render(template_admin, {
+				rendered = Mustache.render(template_admin, {
 					message_admin: message.text,
 				});
-
-				document.getElementById("messages").innerHTML += rendered;
 			}
+			document.getElementById("messages").innerHTML += rendered;
 		});
 	});
 
 	socket.on("admin_send_to_client", (message) => {
 		socket_admin_id = message.socket_id;
 
-		var template_admin = document.getElementById("admin-template").innerHTML;
+		const template_admin = document.getElementById("template_admin").innerHTML;
 
 		const rendered = Mustache.render(template_admin, {
 			message_admin: message.text,
@@ -65,7 +63,7 @@ document.querySelector("#start_chat").addEventListener("click", (event) => {
 });
 
 document
-	.querySelector("send_message_button")
+	.querySelector("#send_message_button")
 	.addEventListener("click", (event) => {
 		const text = document.getElementById("message_user");
 
@@ -80,9 +78,9 @@ document
 			.innerHTML;
 
 		const rendered = Mustache.render(template_client, {
-			message: params.text,
+			message: text.innerHTML,
 			email,
 		});
-
+		text.innerHTML = "";
 		document.getElementById("messages").innerHTML += rendered;
 	});

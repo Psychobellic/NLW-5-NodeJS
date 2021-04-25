@@ -20,10 +20,10 @@ class Settings {
 	chat: boolean;
 
 	@UpdateDateColumn()
-	updated_At: Date;
+	updated_at: Date;
 
 	@CreateDateColumn()
-	created_At: Date;
+	created_at: Date;
 
 	constructor() {
 		if (!this.id) {

@@ -1,5 +1,6 @@
 import { MessagesRepository } from "../repositories/MessagesRepository";
-import { getCustomRepository } from "typeorm";
+import { getCustomRepository, Repository } from "typeorm";
+import { Message } from "../entities/Message";
 
 interface IMessageCreate {
 	admin_id?: string;
@@ -9,7 +10,7 @@ interface IMessageCreate {
 
 class MessageService {
 	// Para não criar o Repositorio toda vez, criamos um private e um constructor, que afetam toda a classe que a contem, mencionamos tal constructor com o this. e podemos usar em vários pontos do codigo.
-	private messagesRepo: MessagesRepository;
+	private messagesRepo: Repository<Message>;
 
 	constructor() {
 		this.messagesRepo = getCustomRepository(MessagesRepository);
@@ -27,8 +28,7 @@ class MessageService {
 	}
 
 	async listByUser(user_id: string) {
-		const messagesRepo = getCustomRepository(MessagesRepository);
-		const list = await messagesRepo.find({
+		const list = await this.messagesRepo.find({
 			where: { user_id },
 			relations: ["user"],
 		});
