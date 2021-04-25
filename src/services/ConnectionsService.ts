@@ -55,6 +55,16 @@ class ConnectionsService {
 			.where("user_id = :user_id", { user_id })
 			.execute();
 	}
+	async removeAdminID(user_id: string) {
+		await this.connectionsRepo
+			.createQueryBuilder()
+			.update(Connection)
+			.set({ admin_id: null })
+			.where("user_id = :user_id", {
+				user_id,
+			})
+			.execute();
+	}
 }
 
 export { ConnectionsService };
