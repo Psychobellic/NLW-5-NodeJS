@@ -24,6 +24,7 @@ function call(id) {
 	);
 
 	connectionInSupport.push(connection);
+
 	const template = document.getElementById("admin_template").innerHTML;
 
 	const rendered = Mustache.render(template, {
@@ -33,7 +34,9 @@ function call(id) {
 
 	document.getElementById("supports").innerHTML += rendered;
 
-	const params = { user_id: connection.user_id };
+	const params = {
+		user_id: connection.user_id,
+	};
 
 	socket.emit("admin_user_in_support", params);
 
@@ -49,12 +52,12 @@ function call(id) {
 				createDiv.className = "admin_message_client";
 				createDiv.innerHTML = `<span>${connection.user.email}</span>`;
 				createDiv.innerHTML += `<span>${message.text}</span>`;
-				createDiv.innerHTML += `<span class="admin_date">${dayjs(
+				createDiv.innerHTML += `<span class="client_date">${dayjs(
 					message.created_at
 				).format("DD/MM/YYYY HH:mm:ss")}</span>`;
 			} else {
 				createDiv.className = "admin_message_admin";
-				createDiv.innerHTML = `<span>Atendente: ${message.text}</span>`;
+				createDiv.innerHTML = `Atendente: <span>${message.text}</span>`;
 				createDiv.innerHTML += `<span class="admin_date">${dayjs(
 					message.created_at
 				).format("DD/MM/YYYY HH:mm:ss")}</span>`;
@@ -69,7 +72,7 @@ function sendMessage(id) {
 	const text = document.getElementById(`send_message_${id}`);
 
 	const params = {
-		text: text.innerHTML,
+		text: text.value,
 		user_id: id,
 	};
 
@@ -80,13 +83,13 @@ function sendMessage(id) {
 
 	createDiv.className = "admin_message_admin";
 	createDiv.innerHTML = `Atendente: <span>${params.text}</span>`;
-	createDiv.innerHTML += `<span class="admin_date>${dayjs().format(
+	createDiv.innerHTML += `<span class="admin_date">${dayjs().format(
 		"DD/MM/YYYY HH:mm:ss"
 	)}</span>`;
 
 	divMessages.appendChild(createDiv);
 
-	text.innerHTML = "";
+	text.value = "";
 }
 
 socket.on("admin_receive_message", (data) => {
@@ -97,11 +100,10 @@ socket.on("admin_receive_message", (data) => {
 	const divMessages = document.getElementById(
 		`allMessages${connection.user_id}`
 	);
-
 	const createDiv = document.createElement("div");
 
 	createDiv.className = "admin_message_client";
-	createDiv.innerHTML = `<span>${connection.user.email} </span>`;
+	createDiv.innerHTML = `<span>${connection.user.email}</span>`;
 	createDiv.innerHTML += `<span>${data.message.text}</span>`;
 	createDiv.innerHTML += `<span class="client_date">${dayjs(
 		data.message.created_at
